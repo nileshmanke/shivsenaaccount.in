@@ -26,7 +26,17 @@
 
     <form id="user-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <input name="fullName" required placeholder="Full Name *" class="w-full p-2 border rounded" />
-      <input type="date" name="dob" required class="w-full p-2 border rounded" />
+
+      <!-- Date of Birth input fixed for mobile -->
+      <input 
+        type="date" 
+        name="dob" 
+        required 
+        class="w-full p-2 border rounded" 
+        onfocus="this.dataset.placeholder = this.placeholder; this.placeholder = '';" 
+        onblur="this.placeholder = this.dataset.placeholder;" 
+        placeholder="Date of Birth *"
+      />
 
       <select name="education" required class="w-full p-2 border rounded">
         <option value="">Education *</option>
@@ -90,7 +100,7 @@
     </form>
   </main>
 
-  <!-- EmailJS Script with loader & disabled button -->
+  <!-- EmailJS Script -->
   <script>
     const form = document.getElementById("user-form");
     const submitBtn = document.getElementById("submit-btn");
@@ -100,7 +110,6 @@
     form.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      // Disable button & show loader
       submitBtn.disabled = true;
       btnText.textContent = "Please wait...";
       loader.classList.remove("hidden");
@@ -114,7 +123,6 @@
           alert("Something went wrong. Try again.");
         })
         .finally(() => {
-          // Re-enable button & hide loader
           submitBtn.disabled = false;
           btnText.textContent = "Submit";
           loader.classList.add("hidden");
