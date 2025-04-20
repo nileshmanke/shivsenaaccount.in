@@ -27,16 +27,11 @@
     <form id="user-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <input name="fullName" required placeholder="Full Name *" class="w-full p-2 border rounded" />
 
-      <!-- Date of Birth input fixed for mobile -->
-      <input 
-        type="date" 
-        name="dob" 
-        required 
-        class="w-full p-2 border rounded" 
-        onfocus="this.dataset.placeholder = this.placeholder; this.placeholder = '';" 
-        onblur="this.placeholder = this.dataset.placeholder;" 
-        placeholder="Date of Birth *"
-      />
+      <!-- DOB input with label above -->
+      <div class="flex flex-col">
+        <label for="dob" class="text-gray-700 mb-1">Date of Birth *</label>
+        <input type="date" id="dob" name="dob" required class="w-full p-2 border rounded" />
+      </div>
 
       <select name="education" required class="w-full p-2 border rounded">
         <option value="">Education *</option>
