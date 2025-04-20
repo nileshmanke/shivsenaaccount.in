@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Detail Form</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function () {
+      emailjs.init("O9IFE8zq5fjh3gYYw"); // Replace with your EmailJS public key
+    })();
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center p-4">
+
+  <!-- Header -->
+  <header class="w-full max-w-4xl flex justify-between items-center bg-white p-4 shadow rounded-md">
+    <img src="Logo.svg.png" alt="Logo" class="h-12">
+    <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Member Login</button>
+  </header>
+
+  <!-- Form -->
+  <main class="w-full max-w-4xl mt-6 bg-white p-6 rounded shadow">
+    <h2 class="text-2xl font-semibold mb-6 text-center">User Detail Form</h2>
+
+    <form id="user-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <input name="fullName" required placeholder="Full Name *" class="w-full p-2 border rounded" />
+      <input type="date" name="dob" required class="w-full p-2 border rounded" />
+
+      <select name="education" required class="w-full p-2 border rounded">
+        <option value="">Education *</option>
+        <option>10th</option><option>12th</option><option>Diploma</option>
+        <option>Graduation</option><option>Post Graduation</option>
+        <option>Master's Degree</option><option>PhD</option><option>ITI</option><option>Other</option>
+      </select>
+
+      <input name="email" type="email" required placeholder="Email *" class="w-full p-2 border rounded" />
+      <textarea name="address" rows="2" required placeholder="Address *" class="w-full p-2 border rounded md:col-span-2"></textarea>
+
+      <select name="district" required class="w-full p-2 border rounded">
+        <option value="">District *</option>
+        <option>Ahmednagar</option><option>Akola</option><option>Amravati</option><option>Aurangabad</option>
+        <option>Beed</option><option>Bhandara</option><option>Buldhana</option><option>Chandrapur</option>
+        <option>Dhule</option><option>Gadchiroli</option><option>Gondia</option><option>Hingoli</option>
+        <option>Jalgaon</option><option>Jalna</option><option>Kolhapur</option><option>Latur</option>
+        <option>Mumbai City</option><option>Mumbai Suburban</option><option>Nagpur</option><option>Nanded</option>
+        <option>Nandurbar</option><option>Nashik</option><option>Osmanabad</option><option>Palghar</option>
+        <option>Parbhani</option><option>Pune</option><option>Raigad</option><option>Ratnagiri</option>
+        <option>Sangli</option><option>Satara</option><option>Sindhudurg</option><option>Solapur</option>
+        <option>Thane</option><option>Wardha</option><option>Washim</option><option>Yavatmal</option>
+      </select>
+
+      <input name="taluka" required placeholder="Taluka *" class="w-full p-2 border rounded" />
+
+      <select name="matdarSangh" required class="w-full p-2 border rounded">
+        <option value="">विधानसभा मतदार संघ *</option>
+        <option>छत्रपती संभाजीनगर पूर्व</option>
+        <option>छत्रपती संभाजीनगर पश्चिम</option>
+        <option>छत्रपती संभाजीनगर मध्य</option>
+        <option>छत्रपती संभाजीनगर ग्रामीण</option>
+        <option>छत्रपती संभाजीनगर वैजापूर</option>
+      </select>
+
+      <input name="sanghatana" required placeholder="अधिकृत संघटना *" class="w-full p-2 border rounded" />
+
+      <!-- Gender -->
+      <div class="w-full">
+        <label class="block text-gray-700 mb-1">Gender *</label>
+        <div class="flex gap-4">
+          <label><input type="radio" name="gender" value="Male" required class="mr-2" /> Male</label>
+          <label><input type="radio" name="gender" value="Female" required class="mr-2" /> Female</label>
+          <label><input type="radio" name="gender" value="Other" required class="mr-2" /> Other</label>
+        </div>
+      </div>
+
+      <input name="wardNo" required placeholder="Ward No. *" class="w-full p-2 border rounded" />
+      <input name="mobile" required placeholder="Mobile Number *" class="w-full p-2 border rounded" />
+
+      <!-- Submit Button -->
+      <div class="md:col-span-2 text-center mt-4">
+        <button id="submit-btn" type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 flex items-center justify-center gap-2">
+          <span id="btn-text">Submit</span>
+          <svg id="loader" class="animate-spin h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+          </svg>
+        </button>
+      </div>
+    </form>
+  </main>
+
+  <!-- EmailJS Script with loader & disabled button -->
+  <script>
+    const form = document.getElementById("user-form");
+    const submitBtn = document.getElementById("submit-btn");
+    const btnText = document.getElementById("btn-text");
+    const loader = document.getElementById("loader");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      // Disable button & show loader
+      submitBtn.disabled = true;
+      btnText.textContent = "Please wait...";
+      loader.classList.remove("hidden");
+
+      emailjs.sendForm("service_b810lei", "template_ywcyiyj", this)
+        .then(() => {
+          alert("Form submitted successfully!");
+          form.reset();
+        }, (error) => {
+          console.error("FAILED...", error);
+          alert("Something went wrong. Try again.");
+        })
+        .finally(() => {
+          // Re-enable button & hide loader
+          submitBtn.disabled = false;
+          btnText.textContent = "Submit";
+          loader.classList.add("hidden");
+        });
+    });
+  </script>
+
+</body>
+</html>
